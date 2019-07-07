@@ -1,16 +1,23 @@
 package com.rf.challenge.web.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+
 public class TransferViewModel {
 
+    @JsonProperty("origin_account_number")
     private String originAccountNumber;
+    @JsonProperty("destination_account_number")
     private String destinationAccountNumber;
     private BigDecimal amount;
     private BigDecimal fee;
+    @JsonProperty("transfer_date")
     private LocalDate transferDate;
-    private LocalDate scheduleDate;
+    @JsonProperty("creation_date")
+    private LocalDate creationDate;
 
     public TransferViewModel() {
 
@@ -18,13 +25,13 @@ public class TransferViewModel {
 
     public TransferViewModel(String originAccountNumber, String destinationAccountNumber,
                              BigDecimal amount, BigDecimal fee,
-                             LocalDate transferDate, LocalDate scheduleDate) {
+                             LocalDate transferDate, LocalDate creationDate) {
         this.originAccountNumber = originAccountNumber;
         this.destinationAccountNumber = destinationAccountNumber;
         this.amount = amount;
         this.fee = fee;
         this.transferDate = transferDate;
-        this.scheduleDate = scheduleDate;
+        this.creationDate = creationDate;
     }
 
     public String getOriginAccountNumber() {
@@ -67,11 +74,11 @@ public class TransferViewModel {
         this.transferDate = transferDate;
     }
 
-    public LocalDate getScheduleDate() {
-        return scheduleDate;
+    public LocalDate getCreationDate() {
+        return creationDate;
     }
 
-    public void setScheduleDate(LocalDate scheduleDate) {
-        this.scheduleDate = scheduleDate;
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
     }
 }

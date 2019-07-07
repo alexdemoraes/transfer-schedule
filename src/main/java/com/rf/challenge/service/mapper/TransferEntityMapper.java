@@ -3,9 +3,6 @@ package com.rf.challenge.service.mapper;
 import com.rf.challenge.dao.model.TransferEntity;
 import com.rf.challenge.web.model.TransferViewModel;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-
 public class TransferEntityMapper {
 
     private TransferEntityMapper() {
@@ -18,7 +15,7 @@ public class TransferEntityMapper {
         entity.setAmount(viewModel.getAmount());
         entity.setFee(viewModel.getFee());
         entity.setTransferDate(viewModel.getTransferDate());
-        entity.setScheduleDate(viewModel.getScheduleDate());
+        entity.setCreationDate(viewModel.getCreationDate());
         return entity;
     }
 
@@ -29,7 +26,7 @@ public class TransferEntityMapper {
         viewModel.setAmount(entity.getAmount());
         viewModel.setFee(entity.getFee());
         viewModel.setTransferDate(entity.getTransferDate());
-        viewModel.setScheduleDate(entity.getScheduleDate());
+        viewModel.setCreationDate(entity.getCreationDate());
         return viewModel;
     }
 

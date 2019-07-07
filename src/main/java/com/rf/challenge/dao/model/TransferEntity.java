@@ -19,20 +19,20 @@ public class TransferEntity {
     private BigDecimal amount;
     private BigDecimal fee;
     private LocalDate transferDate;
-    private LocalDate scheduleDate;
+    private LocalDate creationDate;
 
     public TransferEntity() {
     }
 
     public TransferEntity(String originAccountNumber, String destinationAccountNumber,
                           BigDecimal amount, BigDecimal fee, LocalDate transferDate,
-                          LocalDate scheduleDate) {
+                          LocalDate creationDate) {
         this.originAccountNumber = originAccountNumber;
         this.destinationAccountNumber = destinationAccountNumber;
         this.amount = amount;
         this.fee = fee;
         this.transferDate = transferDate;
-        this.scheduleDate = scheduleDate;
+        this.creationDate = creationDate;
     }
 
     public Integer getId() {
@@ -83,11 +83,11 @@ public class TransferEntity {
         this.transferDate = transferDate;
     }
 
-    public LocalDate getScheduleDate() {
-        return scheduleDate;
+    public LocalDate getCreationDate() {
+        return creationDate;
     }
 
-    public void setScheduleDate(LocalDate scheduleDate) {
-        this.scheduleDate = scheduleDate;
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
     }
 }
