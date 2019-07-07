@@ -15,7 +15,11 @@ import java.util.List;
 public class TransferServiceImpl implements TransferService {
 
     @Autowired
+    private FeeCalculationService feeCalculationService;
+
+    @Autowired
     private TransferDAO dao;
+
 
     @Override
     public List<TransferViewModel> list() {
@@ -29,6 +33,13 @@ public class TransferServiceImpl implements TransferService {
     @Override
     public TransferViewModel schedule(TransferViewModel viewModel) {
         viewModel.setCreationDate(LocalDate.now());
+        viewModel.setFee(
+                feeCalculationService.calculateFee(
+                        viewModel.getCreationDate(),
+                        viewModel.getTransferDate(),
+                        viewModel.getAmount()
+                )
+        );
         TransferEntity entity = TransferEntityMapper.from(viewModel);
         dao.create(entity);
         return viewModel;
