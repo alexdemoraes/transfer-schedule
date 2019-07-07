@@ -33,7 +33,8 @@ public class TransferController {
 
     @PostMapping("schedule")
     public ResponseEntity<TransferViewModel> schedule(@RequestBody TransferViewModel viewModel) {
-        return new ResponseEntity<>(new TransferViewModel(), HttpStatus.CREATED);
+        TransferViewModel returnViewModel = service.schedule(viewModel);
+        return new ResponseEntity<>(returnViewModel, HttpStatus.CREATED);
     }
 
 }
