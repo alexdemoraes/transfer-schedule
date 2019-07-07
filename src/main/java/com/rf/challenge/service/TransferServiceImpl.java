@@ -7,6 +7,7 @@ import com.rf.challenge.web.model.TransferViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,8 +28,10 @@ public class TransferServiceImpl implements TransferService {
 
     @Override
     public TransferViewModel schedule(TransferViewModel viewModel) {
+        viewModel.setCreationDate(LocalDate.now());
         TransferEntity entity = TransferEntityMapper.from(viewModel);
-        return null;
+        dao.create(entity);
+        return viewModel;
     }
 
 }
