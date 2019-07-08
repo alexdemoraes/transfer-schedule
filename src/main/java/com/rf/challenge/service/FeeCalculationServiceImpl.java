@@ -1,5 +1,6 @@
 package com.rf.challenge.service;
 
+import static com.rf.challenge.service.TransferService.MINIMUM_AMOUNT_40_DAYS_LONGER;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -10,7 +11,6 @@ import java.time.temporal.ChronoUnit;
 public class FeeCalculationServiceImpl implements FeeCalculationService {
 
     private final static BigDecimal ZERO = BigDecimal.ZERO;
-    private final static BigDecimal MINIMUM_AMOUNT_40_DAYS_LONGER_ = new BigDecimal(100000);
 
     /* Type A constants */
     private final static BigDecimal SAME_DAY_FIXED_FEE = new BigDecimal(3);
@@ -47,7 +47,7 @@ public class FeeCalculationServiceImpl implements FeeCalculationService {
                 percentual = UNTIL_30_DAYS_AMOUNT_RATE;
             } else if (days < 40) {
                 percentual = UNTIL_40_DAYS_AMOUNT_RATE;
-            } else if (amount.compareTo(MINIMUM_AMOUNT_40_DAYS_LONGER_) >= 0) {
+            } else if (amount.compareTo(MINIMUM_AMOUNT_40_DAYS_LONGER) >= 0) {
                 percentual = ABOVE_40_DAYS_AMOUNT_RATE;
             } else {
 
@@ -67,8 +67,7 @@ public class FeeCalculationServiceImpl implements FeeCalculationService {
     private BigDecimal calculateFee(BigDecimal amount,
                                     BigDecimal fixedPortion,
                                     BigDecimal percentual,
-                                    long days, BigDecimal feePerDay
-    ) {
+                                    long days, BigDecimal feePerDay ) {
         return fixedPortion.
                 add(amount.multiply(percentual)).
                 add(feePerDay.multiply(new BigDecimal(days)));
