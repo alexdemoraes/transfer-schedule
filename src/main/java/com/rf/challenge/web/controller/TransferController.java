@@ -9,11 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
 
 @RestController
 @RequestMapping(value="",
@@ -32,7 +28,7 @@ public class TransferController {
     }
 
     @PostMapping("schedule")
-    public ResponseEntity<TransferViewModel> schedule(@RequestBody TransferViewModel viewModel) {
+    public ResponseEntity<TransferViewModel> schedule(@Valid @RequestBody TransferViewModel viewModel) {
         TransferViewModel returnViewModel = service.schedule(viewModel);
         return new ResponseEntity<>(returnViewModel, HttpStatus.CREATED);
     }
