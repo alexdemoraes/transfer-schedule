@@ -5,6 +5,7 @@ import com.rf.challenge.web.model.TransferViewModel;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 public class TransferValidator implements ConstraintValidator<TransferValidation, TransferViewModel>  {
@@ -13,7 +14,7 @@ public class TransferValidator implements ConstraintValidator<TransferValidation
     public boolean isValid(TransferViewModel viewModel, ConstraintValidatorContext context) {
         if (viewModel != null) {
             if (viewModel.getTransferDate() != null && viewModel.getAmount() != null)  {
-                int days = (int) ChronoUnit.DAYS.between(viewModel.getCreationDate(), viewModel.getTransferDate());
+                int days = (int) ChronoUnit.DAYS.between(LocalDate.now(), viewModel.getTransferDate());
 
                 if (days <= 40) {
                     return true;
