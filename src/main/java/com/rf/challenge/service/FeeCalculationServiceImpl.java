@@ -4,6 +4,7 @@ import static com.rf.challenge.service.TransferService.MINIMUM_AMOUNT_40_DAYS_LO
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
@@ -31,28 +32,28 @@ public class FeeCalculationServiceImpl implements FeeCalculationService {
 
         BigDecimal fee = ZERO;
         BigDecimal fixedPortion = BigDecimal.ZERO;
-        BigDecimal percentual = BigDecimal.ZERO;
+        BigDecimal rate = BigDecimal.ZERO;
         if (days < 0) {
             fee = ZERO;
         } else if (days == 0) {
             fee = calculateFee(amount, SAME_DAY_FIXED_FEE, SAME_DAY_AMOUNT_RATE);
         } else if (days <= 10) {
-            fee = calculateFee(amount, fixedPortion, percentual,
+            fee = calculateFee(amount, fixedPortion, rate,
                     days, FIRST_10_DAYS_FEE_PER_DAY);
         } else {
 
             if (days < 20) {
-                percentual = UNTIL_20_DAYS_AMOUNT_RATE;
+                rate = UNTIL_20_DAYS_AMOUNT_RATE;
             } else if (days < 30) {
-                percentual = UNTIL_30_DAYS_AMOUNT_RATE;
+                rate = UNTIL_30_DAYS_AMOUNT_RATE;
             } else if (days < 40) {
-                percentual = UNTIL_40_DAYS_AMOUNT_RATE;
+                rate = UNTIL_40_DAYS_AMOUNT_RATE;
             } else if (amount.compareTo(MINIMUM_AMOUNT_40_DAYS_LONGER) >= 0) {
-                percentual = ABOVE_40_DAYS_AMOUNT_RATE;
+                rate = ABOVE_40_DAYS_AMOUNT_RATE;
             } else {
 
             }
-            fee = calculateFee(amount, SAME_DAY_FIXED_FEE, SAME_DAY_AMOUNT_RATE);
+            fee = calculateFee(amount, ZERO, rate);
         }
         return fee;
     }
@@ -70,6 +71,7 @@ public class FeeCalculationServiceImpl implements FeeCalculationService {
                                     long days, BigDecimal feePerDay ) {
         return fixedPortion.
                 add(amount.multiply(percentual)).
-                add(feePerDay.multiply(new BigDecimal(days)));
+                add(feePerDay.multiply(new BigDecimal(days))).
+                setScale(2, RoundingMode.HALF_UP);
     }
 }
