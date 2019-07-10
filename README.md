@@ -15,7 +15,7 @@ The proposed approach uses Java 8, Maven and an embedded relational database (H2
 ## How does it work
 
 When you run the application a Embedded Tomcat Server starts to run and serves a simple REST API.
-Every time your application stops transfer data is lost.
+Every time you stop your application, stored transfer data is lost.
 
 ---
 
