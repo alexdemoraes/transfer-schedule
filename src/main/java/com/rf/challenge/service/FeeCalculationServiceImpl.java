@@ -44,11 +44,11 @@ public class FeeCalculationServiceImpl implements FeeCalculationService {
             fee = calculateFee(amount, fixedPortion, rate,
                     days, FIRST_10_DAYS_FEE_PER_DAY);
         } else {
-            if (days < 20) {
+            if (days <= 20) {
                 rate = UNTIL_20_DAYS_AMOUNT_RATE;
-            } else if (days < 30) {
+            } else if (days <= 30) {
                 rate = UNTIL_30_DAYS_AMOUNT_RATE;
-            } else if (days < 40) {
+            } else if (days <= 40) {
                 rate = UNTIL_40_DAYS_AMOUNT_RATE;
             } else if (amount.compareTo(MINIMUM_AMOUNT_40_DAYS_LONGER) >= 0) {
                 rate = ABOVE_40_DAYS_AMOUNT_RATE;

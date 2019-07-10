@@ -55,7 +55,7 @@ public class TransferControllerTest {
 
     @Test
     public void scheduleTransferSuccess() throws Exception {
-        given(service.schedule(any(TransferViewModel.class))).willReturn(Util.validTransferResponse());
+        given(service.schedule(any(TransferViewModel.class))).willReturn(Util.validTransferResponseOdd());
 
         mvc.perform(
                 post("/transfer/schedule").
@@ -68,6 +68,50 @@ public class TransferControllerTest {
 
     }
 
+    @Test
+    public void scheduleTransferSuccess41DaysGreaterThan100Thousand() throws Exception {
+        given(service.schedule(any(TransferViewModel.class))).willReturn(Util.validTransferResponseOdd());
+
+        mvc.perform(
+                post("/transfer/schedule").
+                        content(json(Util.validTransferRequest41GreaterThan100Thousand())).
+                        contentType(contentType)
+        ).
+                andDo(print()).
+                andExpect(status().isCreated()).
+                andExpect(jsonPath("$.fee").value(3.00));
+
+    }
+
+    @Test
+    public void scheduleTransferBadRequestPast() throws Exception {
+        given(service.schedule(any(TransferViewModel.class))).willReturn(Util.validTransferResponseOdd());
+
+        mvc.perform(
+                post("/transfer/schedule").
+                        content(json(Util.inValidTransferRequestTransferDatePast())).
+                        contentType(contentType)
+        ).
+        andDo(print()).
+        andExpect(status().isBadRequest()).
+        andExpect(jsonPath("$.errors").isArray());
+
+    }
+
+    @Test
+    public void scheduleTransferBadRequestFuture() throws Exception {
+        given(service.schedule(any(TransferViewModel.class))).willReturn(Util.validTransferResponseOdd());
+
+        mvc.perform(
+                post("/transfer/schedule").
+                        content(json(Util.inValidTransferRequestTransferDateFuture())).
+                        contentType(contentType)
+        ).
+        andDo(print()).
+        andExpect(status().isBadRequest()).
+        andExpect(jsonPath("$.errors").isArray());
+
+    }
 
     @Test
     public void listTransfers() throws Exception {
@@ -78,12 +122,12 @@ public class TransferControllerTest {
                         content(json(Util.validTransferRequest())).
                         contentType(contentType)
         ).
-                andDo(print()).
-                andExpect(status().isOk()).
-                andExpect(jsonPath("$[0].fee").value(3.00)).
-                andExpect(jsonPath("$[1].fee").value(3.00)).
-                andExpect(jsonPath("$[2].fee").value(3.00)).
-                andExpect(jsonPath("$[3].fee").value(3.00));
+        andDo(print()).
+        andExpect(status().isOk()).
+        andExpect(jsonPath("$[0].fee").value(2.00)).
+        andExpect(jsonPath("$[1].fee").value(3.00)).
+        andExpect(jsonPath("$[2].fee").value(2.00)).
+        andExpect(jsonPath("$[3].fee").value(3.00));
     }
 
 
