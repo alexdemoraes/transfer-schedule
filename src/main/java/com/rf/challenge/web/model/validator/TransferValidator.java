@@ -10,6 +10,8 @@ import java.time.temporal.ChronoUnit;
 
 public class TransferValidator implements ConstraintValidator<TransferValidation, TransferViewModel>  {
 
+    public final static String _40_DAYS_LONGER_TRANSFER_MESSAGE = "For Transfer Date longer than 40 days the amount must be over $ 100.000!";
+
     @Override
     public boolean isValid(TransferViewModel viewModel, ConstraintValidatorContext context) {
         if (viewModel != null) {

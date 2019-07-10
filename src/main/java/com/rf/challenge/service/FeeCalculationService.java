@@ -6,7 +6,7 @@ import java.time.LocalDate;
 public interface FeeCalculationService {
 
 
-    BigDecimal calculateFee(LocalDate scheduledDate, LocalDate transferDate, BigDecimal amount);
+    BigDecimal calculateFee(LocalDate scheduledDate, LocalDate transferDate, BigDecimal amount) throws Exception;
 
 
 }

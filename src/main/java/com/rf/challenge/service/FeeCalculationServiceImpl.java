@@ -1,6 +1,8 @@
 package com.rf.challenge.service;
 
 import static com.rf.challenge.service.TransferService.MINIMUM_AMOUNT_40_DAYS_LONGER;
+
+import com.rf.challenge.web.model.validator.TransferValidator;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -27,7 +29,7 @@ public class FeeCalculationServiceImpl implements FeeCalculationService {
     private final static BigDecimal ABOVE_40_DAYS_AMOUNT_RATE = new BigDecimal(.02);
 
 
-    public BigDecimal calculateFee(LocalDate scheduledDate, LocalDate transferDate, BigDecimal amount) {
+    public BigDecimal calculateFee(LocalDate scheduledDate, LocalDate transferDate, BigDecimal amount) throws Exception {
         int days = (int) ChronoUnit.DAYS.between(scheduledDate, transferDate);
 
         BigDecimal fee = ZERO;
@@ -35,13 +37,13 @@ public class FeeCalculationServiceImpl implements FeeCalculationService {
         BigDecimal rate = BigDecimal.ZERO;
         if (days < 0) {
             fee = ZERO;
+            throw new Exception("Transfer Date must be a future or present date");
         } else if (days == 0) {
             fee = calculateFee(amount, SAME_DAY_FIXED_FEE, SAME_DAY_AMOUNT_RATE);
         } else if (days <= 10) {
             fee = calculateFee(amount, fixedPortion, rate,
                     days, FIRST_10_DAYS_FEE_PER_DAY);
         } else {
-
             if (days < 20) {
                 rate = UNTIL_20_DAYS_AMOUNT_RATE;
             } else if (days < 30) {
@@ -51,7 +53,7 @@ public class FeeCalculationServiceImpl implements FeeCalculationService {
             } else if (amount.compareTo(MINIMUM_AMOUNT_40_DAYS_LONGER) >= 0) {
                 rate = ABOVE_40_DAYS_AMOUNT_RATE;
             } else {
-
+                throw new Exception(TransferValidator._40_DAYS_LONGER_TRANSFER_MESSAGE);
             }
             fee = calculateFee(amount, ZERO, rate);
         }

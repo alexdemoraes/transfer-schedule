@@ -10,6 +10,6 @@ public interface TransferService {
     final static BigDecimal MINIMUM_AMOUNT_40_DAYS_LONGER = new BigDecimal(100000);
 
     List<TransferViewModel> list();
-    TransferViewModel schedule(TransferViewModel viewModel);
+    TransferViewModel schedule(TransferViewModel viewModel) throws Exception;
 
 }

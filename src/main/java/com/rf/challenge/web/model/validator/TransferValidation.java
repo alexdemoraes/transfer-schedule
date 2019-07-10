@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Documented
 public @interface TransferValidation {
 
-    String message() default "For Transfer Date longer than 40 days the amount must be over $ 100.000!";
+    String message() default TransferValidator._40_DAYS_LONGER_TRANSFER_MESSAGE;
 
     Class<?>[] groups() default { };
 

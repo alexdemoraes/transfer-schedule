@@ -27,7 +27,8 @@ public class TransferController {
     }
 
     @PostMapping("schedule")
-    public ResponseEntity<TransferViewModel> schedule(@Valid @RequestBody TransferViewModel viewModel) {
+    public ResponseEntity<TransferViewModel> schedule(@Valid @RequestBody TransferViewModel viewModel) throws Exception {
+
         TransferViewModel returnViewModel = service.schedule(viewModel);
         return new ResponseEntity<>(returnViewModel, HttpStatus.CREATED);
     }
